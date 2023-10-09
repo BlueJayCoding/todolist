@@ -11,12 +11,9 @@ import java.util.Map;
 public class AbstractDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
     Map<String, String> queryMap;
-
     public String getQueryString(String name) {
         return getQueryMap().get(name);
     }
