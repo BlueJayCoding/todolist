@@ -1,0 +1,22 @@
+# init-db-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db-job
+  namespace: todolist-project
+spec:
+  template:
+    spec:
+      containers:
+        - name: init-db-container
+          image: postgres:16 # Use the same PostgreSQL image
+          command: ["bash", "-c"]
+          args:
+            - |
+              sleep 10 # Wait for postgres to start
+              psql -U postgres -d postgres -h postgres-service -c "CREATE TABLE IF NOT EXISTS todolist (id BIGSERIAL, description varchar(255),  createdAt varchar(255),   updatedAt varchar(255), isComplete boolean);"
+          env:
+            - name: PGPASSWORD
+              value: postgres # Set the same password as in the Deployment
+      restartPolicy: Never
+  backoffLimit: 4 # Number of retries before considering the Job as failed
