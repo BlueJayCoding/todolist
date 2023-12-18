@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="taskDao" class="com.example.todolist.repository.TaskDaoImpl">
+        <property name="queryMap">
+            <map>
+                <entry key="createTodoList">
+                    <value>
+                        INSERT INTO todolist (description, createdAt, isComplete) VALUES(?,?,?)
+                    </value>
+                </entry>
+                <entry key="findById">
+                    <value>
+                        SELECT * FROM todolist WHERE id=?
+                    </value>
+                </entry>
+                <entry key="updateTask">
+                    <value>
+                        UPDATE todolist SET description=?, isComplete=?, updatedAt=? where id=?
+                    </value>
+                </entry>
+                <entry key="selectAll">
+                    <value>
+                        SELECT *FROM TODOLIST;
+                    </value>
+                </entry>
+                <entry key="findByDescription">
+                    <value>
+                        SELECT * from todolist WHERE description ILIKE '%" + description + "%'
+                    </value>
+                </entry>
+                <entry key="deleteById">
+                    <value>
+                        DELETE from todolist WHERE id=?
+                    </value>
+                </entry>
+                <entry key="deleteAll">
+                    <value>
+                        DELETE from todolist
+                    </value>
+                </entry>
+            </map>
+        </property>
+<!--        <property name="jdbcTemplate">-->
+<!--            <bean class="org.springframework.jdbc.core.JdbcTemplate">-->
+<!--                <property name="dataSource" ref="dataSource"/>-->
+<!--            </bean>-->
+<!--        </property>-->
+    </bean>
+</beans>
